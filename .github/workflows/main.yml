@@ -1,0 +1,83 @@
+name: 打包并上传到 Release
+
+on:
+  push:
+    branches:
+      - main  # 请根据你的主分支名称进行调整
+
+jobs:
+  build-and-upload:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 检出代码
+      uses: actions/checkout@v2
+
+    - name: 设置 Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+    - name: 设置 npm 忽略 SSL 错误
+      run: npm config set strict-ssl false
+
+    - name: 安装依赖并打包 jeepay-ui-cashier
+      run: |
+        cd jeepay-ui-cashier
+        npm install
+        npm run build
+
+    - name: 安装依赖并打包 jeepay-ui-manager
+      run: |
+        cd ../jeepay-ui-manager
+        npm install
+        npm run build
+
+    - name: 安装依赖并打包 jeepay-ui-merchant
+      run: |
+        cd ../jeepay-ui-merchant
+        npm install
+        npm run build
+
+    - name: 创建 Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      with:
+        tag_name: ${{ github.sha }}
+        release_name: Release ${{ github.sha }}
+        draft: false
+        prerelease: false
+
+    - name: 上传 Release 资源（jeepay-ui-cashier）
+      id: upload_cashier_release_asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: jeepay-ui-cashier/dist
+        asset_name: jeepay-ui-cashier.zip
+        asset_content_type: application/zip
+
+    - name: 上传 Release 资源（jeepay-ui-manager）
+      id: upload_manager_release_asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: jeepay-ui-manager/dist
+        asset_name: jeepay-ui-manager.zip
+        asset_content_type: application/zip
+
+    - name: 上传 Release 资源（jeepay-ui-merchant）
+      id: upload_merchant_release_asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: jeepay-ui-merchant/dist
+        asset_name: jeepay-ui-merchant.zip
+        asset_content_type: application/zip
