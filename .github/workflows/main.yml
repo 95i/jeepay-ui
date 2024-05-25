@@ -20,6 +20,7 @@ jobs:
     - name: 设置 npm 忽略 SSL 错误
       run: |
         npm config set strict-ssl false
+        npm update
         npm install wrap-ansi@6.2.0
         npm install cliui@5.0.0
 
