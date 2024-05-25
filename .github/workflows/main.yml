@@ -36,8 +36,7 @@ jobs:
 
     - name: 安装依赖并打包 jeepay-ui-manager
       run: |
-        cd 
-        cd ../jeepay-ui-manager
+        cd /home/runner/work/jeepay-ui/jeepay-ui/jeepay-ui-manager
         npm install
         npm run build
 
