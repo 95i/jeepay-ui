@@ -30,7 +30,7 @@ jobs:
         cd jeepay-ui-cashier
         # npm audit fix
         npm install
-        # npm run build
+        npm run build
 
     - name: 安装依赖并打包 jeepay-ui-manager
       run: |
