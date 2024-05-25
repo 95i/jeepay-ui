@@ -21,8 +21,8 @@ jobs:
       run: |
         npm config set strict-ssl false
         npm update
-        npm install wrap-ansi@6.2.0
-        npm install cliui@5.0.0
+        # npm install wrap-ansi@6.2.0
+        # npm install cliui@5.0.0
 
 
     - name: 安装依赖并打包 jeepay-ui-cashier
