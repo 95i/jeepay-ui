@@ -31,8 +31,7 @@ jobs:
         # npm audit fix
         npm update cliui wrap-ansi
         npm install
-        npm audit fix
-        npm run build
+#        npm run build
 
     - name: 安装依赖并打包 jeepay-ui-manager
       run: |
