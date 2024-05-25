@@ -18,7 +18,11 @@ jobs:
         node-version: '16'
 
     - name: 设置 npm 忽略 SSL 错误
-      run: npm config set strict-ssl false
+      run: |
+        npm config set strict-ssl false
+        npm install wrap-ansi@6.2.0
+        npm install cliui@5.0.0
+
 
     - name: 安装依赖并打包 jeepay-ui-cashier
       run: |
