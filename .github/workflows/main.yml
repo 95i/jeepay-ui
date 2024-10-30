@@ -1,5 +1,8 @@
 name: Node.js Build and Release
 
+permissions:
+  contents: write  # 确保有写入权限
+
 on:
   push:
     branches:
@@ -59,3 +62,5 @@ jobs:
           asset_path: jeepay-ui-manager/dist.zip  # 上传的文件路径
           asset_name: dist.zip  # 上传后的文件名
           asset_content_type: application/zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # 确保使用环境变量传递令牌
